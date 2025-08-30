@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Demo Configuration for Modern LLM API Key Tester & Analyzer
+Demo Configuration for Modern KeyMate
 
 This file contains demo data and configuration for showcasing the modern UI features.
 """

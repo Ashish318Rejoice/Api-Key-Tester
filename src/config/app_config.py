@@ -1,5 +1,5 @@
 """
-Application Configuration for LLM API Key Tester & Analyzer
+Application Configuration for KeyMate
 
 This module contains the main application configuration including:
 - App metadata
@@ -12,10 +12,10 @@ import os
 from typing import Dict, Any
 
 # App Metadata
-APP_NAME = "LLM API Key Tester & Analyzer"
+APP_NAME = "KeyMate"
 APP_VERSION = "1.3.0"
 APP_DESCRIPTION = "Professional validation, exploration, and analysis of LLM API keys"
-APP_AUTHOR = "LLM API Key Tester Team"
+APP_AUTHOR = "KeyMate Team"
 
 # Default Settings
 DEFAULT_SETTINGS = {

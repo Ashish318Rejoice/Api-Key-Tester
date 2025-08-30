@@ -1,4 +1,4 @@
-# 🤖 LLM API Key Tester & Analyzer
+# 🔑 KeyMate
 
 A **professional, modern Streamlit application** for validating LLM API keys, exploring models, and analyzing model capabilities. Built with advanced UI components that can compete with React.js interfaces.
 
@@ -43,7 +43,7 @@ That's it! The application will open in your browser with the most professional 
 ## 🏗️ Clean Project Structure
 
 ```
-📁 LLM API Key Tester & Analyzer/
+📁 KeyMate/
 ├── 🚀 main.py                    # Main application entry point
 ├── 📁 src/                       # Source code
 │   ├── 📁 ui/                    # User interface components

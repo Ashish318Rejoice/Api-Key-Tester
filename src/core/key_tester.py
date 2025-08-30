@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LLM API Key Tester & Analyzer - Core Business Logic
+KeyMate - Core Business Logic
 
 This module provides the main business logic for:
 - API key validation across multiple providers

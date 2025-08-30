@@ -1,5 +1,5 @@
 """
-Modern UI Components for LLM API Key Tester & Analyzer
+Modern UI Components for KeyMate
 
 This package contains all UI-related components including:
 - Modern styling and CSS
@@ -13,4 +13,4 @@ from .styling import *
 from .layout import *
 
 __version__ = "1.3.0"
-__author__ = "LLM API Key Tester Team"
+__author__ = "KeyMate Team"

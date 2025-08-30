@@ -1,5 +1,5 @@
 """
-Modern CSS Styling for LLM API Key Tester & Analyzer
+Modern CSS Styling for KeyMate
 
 This module contains all custom CSS styles for creating a professional,
 modern interface that can compete with React.js applications.
@@ -8,7 +8,7 @@ modern interface that can compete with React.js applications.
 # Custom CSS for modern UI
 CUSTOM_CSS = """
 <style>
-/* UI Fixes for LLM API Key Tester - Frontend Specialist Improvements */
+/* UI Fixes for KeyMate - Frontend Specialist Improvements */
 
 /* Fix 1: Consistent Spacing System */
 :root {

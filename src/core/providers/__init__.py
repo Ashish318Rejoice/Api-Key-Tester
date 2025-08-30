@@ -1,5 +1,5 @@
 """
-LLM API Key Testers Package
+KeyMate Providers Package
 Contains testers for various LLM providers: OpenAI, Gemini, Deepseek, Claude, Grok, and Groq
 """
 
@@ -20,5 +20,5 @@ __all__ = [
 ]
 
 __version__ = "1.0.0"
-__author__ = "LLM API Key Tester"
+__author__ = "KeyMate"
 __description__ = "A comprehensive tool to test and analyze LLM API keys"

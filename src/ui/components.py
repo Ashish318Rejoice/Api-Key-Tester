@@ -1,5 +1,5 @@
 """
-Modern UI Components for LLM API Key Tester & Analyzer
+Modern UI Components for KeyMate
 
 This module contains all the interactive UI components including:
 - Metric cards
@@ -457,8 +457,8 @@ def create_welcome_screen(animation: str = "fade-in") -> None:
     st.markdown(f"""
     <div class="welcome-screen {animation}">
         <div class="welcome-content">
-            <div class="welcome-icon">🚀</div>
-            <h1>Welcome to LLM API Key Tester</h1>
+            <div class="welcome-icon">🔑</div>
+            <h1>Welcome to KeyMate</h1>
             <p>Professional tool for validating and analyzing LLM API keys</p>
             <div class="welcome-features">
                 <div class="feature-item">

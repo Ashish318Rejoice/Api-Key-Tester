@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🤖 LLM API Key Tester & Analyzer - Main Application
+🔑 KeyMate - Main Application
 
 This is the main entry point for the professional, modern Streamlit application
 that provides a comprehensive interface for validating LLM API keys and analyzing models.

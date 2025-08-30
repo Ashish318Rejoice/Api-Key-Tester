@@ -1,5 +1,5 @@
 """
-Layout Components for LLM API Key Tester & Analyzer
+Layout Components for KeyMate
 
 This module contains layout-related components including:
 - Header and footer
@@ -15,7 +15,7 @@ from .styling import inject_custom_css
 
 
 # App constants
-APP_TITLE = "🤖 LLM API Key Tester & Analyzer"
+APP_TITLE = "🔑 KeyMate"
 APP_SUBTITLE = "Professional validation, exploration, and analysis of LLM API keys"
 FOOTER_COPY = "🔒 Keys are never stored or logged • Built with Streamlit"
 
@@ -23,8 +23,8 @@ FOOTER_COPY = "🔒 Keys are never stored or logged • Built with Streamlit"
 def render_modern_header() -> None:
     """Render modern header with gradient background."""
     st.set_page_config(
-        page_title="LLM API Key Tester",
-        page_icon="🤖",
+        page_title="KeyMate",
+        page_icon="🔑",
         layout="wide",
         initial_sidebar_state="expanded"
     )
@@ -47,7 +47,7 @@ def create_modern_footer() -> None:
     <div class="footer">
         <div class="footer-content">
             <div>
-                <strong>v1.3.0</strong> • LLM API Key Tester & Analyzer
+                <strong>v1.3.0</strong> • KeyMate
             </div>
             <div>
                 {FOOTER_COPY}

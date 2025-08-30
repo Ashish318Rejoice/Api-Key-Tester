@@ -1,5 +1,5 @@
 """
-Configuration Management for LLM API Key Tester & Analyzer
+Configuration Management for KeyMate
 
 This package contains configuration files and settings including:
 - App configuration
@@ -12,4 +12,4 @@ from .app_config import *
 from .demo_config import *
 
 __version__ = "1.3.0"
-__author__ = "LLM API Key Tester Team"
+__author__ = "KeyMate Team"
