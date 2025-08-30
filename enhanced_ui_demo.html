@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM API Key Tester - Enhanced UI Demo</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Modern UI Styles with Enhanced Design */
+        .main-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            padding: 3rem 0;
+            border-radius: 0 0 30px 30px;
+            margin: -20px -20px 3rem -20px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .main-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .main-header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin: 1rem 0 0 0;
+            position: relative;
+            z-index: 1;
+            font-weight: 300;
+        }
+
+        /* Enhanced Card Container */
+        .card-container {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.08),
+                0 1px 3px rgba(0,0,0,0.05),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .card-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.12),
+                0 1px 3px rgba(0,0,0,0.05),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+        }
+
+        .card-container h3 {
+            color: #1f2937;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+        }
+
+        .card-container h3::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 3rem;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        /* Enhanced Provider Badge */
+        .provider-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            box-shadow: 
+                0 4px 15px rgba(0,0,0,0.2),
+                0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .provider-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .provider-badge:hover::before {
+            left: 100%;
+        }
+
+        .provider-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.25),
+                0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .provider-badge.openai { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+        }
+        .provider-badge.gemini { 
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+        }
+        .provider-badge.deepseek { 
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
+        }
+        .provider-badge.claude { 
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); 
+        }
+        .provider-badge.grok { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+        }
+        .provider-badge.groq { 
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); 
+        }
+
+        /* Enhanced Model Card */
+        .model-card {
+            background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 0.75rem 0;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .model-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .model-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 
+                0 15px 35px rgba(0,0,0,0.15),
+                0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .model-card:hover::before {
+            opacity: 1;
+        }
+
+        .model-card.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 
+                0 10px 25px rgba(102, 126, 234, 0.3),
+                0 5px 15px rgba(118, 75, 162, 0.2);
+        }
+
+        .model-card.selected::before {
+            opacity: 0;
+        }
+
+        /* Enhanced Metric Card */
+        .metric-card {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.08),
+                0 1px 3px rgba(0,0,0,0.05),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 15px 35px rgba(0,0,0,0.12),
+                0 1px 3px rgba(0,0,0,0.05),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+        }
+
+        .metric-card h4 {
+            color: #6b7280;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: relative;
+        }
+
+        .metric-card .value {
+            color: #1f2937;
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Enhanced Search Container */
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%236b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat 16px center;
+            background-size: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 
+                0 0 0 4px rgba(102, 126, 234, 0.1),
+                0 4px 15px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Enhanced Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .status-badge:hover::before {
+            left: 100%;
+        }
+
+        .status-badge.success {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+
+        .status-badge.error {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+        }
+
+        .status-badge.warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .status-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Enhanced Buttons */
+        .button-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 8px 25px rgba(102, 126, 234, 0.3),
+                0 1px 3px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .button-primary:hover::before {
+            left: 100%;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 15px 35px rgba(102, 126, 234, 0.4),
+                0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .button-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .button-secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Enhanced Grid and Flex Containers */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .flex-container {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            color: white;
+            margin: 2rem 0;
+        }
+
+        .welcome-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-content h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .main-header p {
+                font-size: 1.1rem;
+            }
+            
+            .card-container {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .flex-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .metric-card {
+                padding: 1.5rem;
+            }
+            
+            .metric-card .value {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Header -->
+    <header class="main-header">
+        <h1>🤖 LLM API Key Tester</h1>
+        <p>Professional tool for validating and analyzing LLM API keys</p>
+    </header>
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen fade-in">
+        <div class="welcome-content">
+            <div class="welcome-icon">🚀</div>
+            <h1>Welcome to LLM API Key Tester</h1>
+            <p>Professional tool for validating and analyzing LLM API keys</p>
+            <div class="welcome-features">
+                <div class="feature-item">
+                    <span class="feature-icon">🔑</span>
+                    <span>Multi-provider support</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🤖</span>
+                    <span>Model exploration</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📊</span>
+                    <span>Advanced analytics</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Metrics -->
+    <div class="card-container fade-in">
+        <h3>📊 Dashboard Metrics</h3>
+        <div class="grid-container">
+            <div class="metric-card bounce-in">
+                <h4>🤖 Total Models</h4>
+                <div class="value">24</div>
+            </div>
+            <div class="metric-card bounce-in">
+                <h4>🏢 Provider</h4>
+                <div class="value">OpenAI</div>
+            </div>
+            <div class="metric-card bounce-in">
+                <h4>🔑 API Status</h4>
+                <div class="value">Valid</div>
+            </div>
+            <div class="metric-card bounce-in">
+                <h4>🎯 Selected Model</h4>
+                <div class="value">GPT-4</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Key Validation -->
+    <div class="card-container slide-in-left">
+        <h3>🔑 API Key Validation</h3>
+        <div class="flex-container">
+            <div class="search-container">
+                <input type="password" placeholder="Enter your API key (sk-...)" />
+            </div>
+            <button class="button-primary">🔍 Validate</button>
+        </div>
+        <div style="margin-top: 1rem;">
+            <div class="status-badge success">✅ API Key Valid — Successfully connected to OpenAI</div>
+        </div>
+    </div>
+
+    <!-- Provider Information -->
+    <div class="card-container fade-in">
+        <h3>🏢 Provider Information</h3>
+        <div class="flex-container">
+            <div class="provider-badge openai">🟦 OpenAI</div>
+            <div class="provider-badge gemini">🟨 Gemini</div>
+            <div class="provider-badge deepseek">🟧 Deepseek</div>
+            <div class="provider-badge claude">🟪 Anthropic Claude</div>
+            <div class="provider-badge grok">⚫ xAI Grok</div>
+            <div class="provider-badge groq">🟩 Groq</div>
+        </div>
+    </div>
+
+    <!-- Model Cards -->
+    <div class="card-container slide-in-left">
+        <h3>🤖 Available Models</h3>
+        <div class="grid-container">
+            <div class="model-card">
+                <h4>gpt-4</h4>
+                <p><strong>Type:</strong> Chat</p>
+                <p>Context: 8,192 tokens</p>
+                <p>Created: 2023-03-14</p>
+            </div>
+            <div class="model-card selected">
+                <h4>gpt-4-turbo</h4>
+                <p><strong>Type:</strong> Chat</p>
+                <p>Context: 128,000 tokens</p>
+                <p>Created: 2023-11-06</p>
+            </div>
+            <div class="model-card">
+                <h4>gpt-3.5-turbo</h4>
+                <p><strong>Type:</strong> Chat</p>
+                <p>Context: 16,385 tokens</p>
+                <p>Created: 2022-11-30</p>
+            </div>
+            <div class="model-card">
+                <h4>text-embedding-ada-002</h4>
+                <p><strong>Type:</strong> Embedding</p>
+                <p>Context: 8,191 tokens</p>
+                <p>Created: 2022-12-15</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card-container fade-in">
+        <h3>⚡ Quick Actions</h3>
+        <div class="flex-container">
+            <button class="button-primary">🔄 Refresh Models</button>
+            <button class="button-secondary">📊 Export Data</button>
+            <button class="button-secondary">⚙️ Settings</button>
+            <button class="button-secondary">❓ Help</button>
+        </div>
+    </div>
+
+    <!-- Status Examples -->
+    <div class="card-container slide-in-left">
+        <h3>📊 Status Examples</h3>
+        <div class="flex-container">
+            <div class="status-badge success">✅ Success - Operation completed</div>
+            <div class="status-badge error">❌ Error - Invalid API key</div>
+            <div class="status-badge warning">⚠️ Warning - Rate limit approaching</div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Model card selection
+            const modelCards = document.querySelectorAll('.model-card');
+            modelCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Remove selected class from all cards
+                    modelCards.forEach(c => c.classList.remove('selected'));
+                    // Add selected class to clicked card
+                    this.classList.add('selected');
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.querySelector('.search-container input');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const modelCards = document.querySelectorAll('.model-card');
+                
+                modelCards.forEach(card => {
+                    const modelName = card.querySelector('h4').textContent.toLowerCase();
+                    if (modelName.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+
+            // Button hover effects
+            const buttons = document.querySelectorAll('.button-primary, .button-secondary');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add loading animation to validate button
+            const validateButton = document.querySelector('.button-primary');
+            validateButton.addEventListener('click', function() {
+                this.textContent = '⏳ Validating...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.textContent = '🔍 Validate';
+                    this.disabled = false;
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

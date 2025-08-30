@@ -1,0 +1,26 @@
+# Node
+node_modules/
+web/node_modules/
+web/dist/
+web/.vite/
+web/.eslintcache
+web/.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+venv/
+.venv/
+api_keys.txt
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Build artifacts
+dist/
+build/
+
+
